@@ -16,6 +16,7 @@ namespace SistemaHospitalario
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDbContext<DbContext>
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -25,6 +26,8 @@ namespace SistemaHospitalario
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles();
 
             app.UseMvc(config=>config.MapRoute(
                 "Default",

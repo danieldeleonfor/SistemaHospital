@@ -5,8 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="wwwroot\" />
+    <Compile Remove="wwwroot\javascript\**" />
+    <Content Remove="wwwroot\javascript\**" />
+    <EmbeddedResource Remove="wwwroot\javascript\**" />
+    <None Remove="wwwroot\javascript\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>

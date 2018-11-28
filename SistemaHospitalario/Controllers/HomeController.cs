@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SistemaHospitalario.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,16 @@ namespace SistemaHospitalario.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginModel model)
+        {
+            return View();
+        }
     }
 }
