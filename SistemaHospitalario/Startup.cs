@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SistemaHospitalario.Models;
 
 namespace SistemaHospitalario
 {
@@ -16,7 +18,14 @@ namespace SistemaHospitalario
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<DbContext>
+            services.AddDbContext<DbContext2>(options=> {
+                options.UseSqlServer("Data Source=.;Initial Catalog=Prueba;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            });
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".SistemaHospital.Session";
+                options.IdleTimeout = TimeSpan.FromHours(12);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,7 +37,7 @@ namespace SistemaHospitalario
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseMvc(config=>config.MapRoute(
                 "Default",
                 "{controller}/{action}/{id?}",
@@ -43,5 +52,6 @@ namespace SistemaHospitalario
                 await context.Response.WriteAsync("Hello World!");
             });
         }
+
     }
 }

@@ -9,6 +9,11 @@ namespace SistemaHospitalario.Models
 {
     public class DbContext2 : DbContext
     {
-        
+        public DbContext2(DbContextOptions options):base(options)
+        {
+
+        }
+        public DbSet<Paciente> Pacientes { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }
