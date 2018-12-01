@@ -11,9 +11,11 @@ namespace SistemaHospitalario.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly DbContext2 DbContext;
+
+        public HomeController(DbContext2 dbContext)
         {
-            
+            this.DbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -41,6 +43,18 @@ namespace SistemaHospitalario.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
+            if (ModelState.IsValid)
+            {
+                var usuarioLogeado = DbContext.Usuarios.FirstOrDefault(r => r.NombreUsuario == model.Username);
+                if (usuarioLogeado != null)
+                {
+                    if (usuarioLogeado.Contrasenia == model.Password)
+                    {
+                        HttpContext.Session.SetString(GeneralConfig.userSessionKey, model.Username);
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
             HttpContext.Session.SetString(GeneralConfig.userSessionKey, model.Username);
             
             return View();

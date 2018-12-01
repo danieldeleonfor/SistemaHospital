@@ -1,4 +1,6 @@
-﻿<div class="row">
+﻿@model SistemaHospitalario.Models.Paciente
+
+<div class="row">
     <div class="col-sm-12">
         <button class="btn waves-effect waves-light btn-inverse"><i class="icofont icofont-exchange"></i>Pacientes Registrados</button>
         <br />
@@ -9,33 +11,33 @@
                 <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
             </div>
             <div class="card-block">
-                <form class="form-material">
+                <form method="post" asp-controller="Asistente" asp-action="Paciente" class="form-material">
                     <div class="form-group form-default form-static-label">
-                        <input id="cedulatxt" type="text" name="footer-email" class="form-control" placeholder="Ingrese la Cedula" required="">
+                        <input asp-for="@Model.Cedula" type="text" name="footer-email" class="form-control" placeholder="Ingrese la Cedula" required="">
                         <span class="form-bar"></span>
                         <label class="float-label">Cedula</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <input type="text" name="footer-email" class="form-control" placeholder="Ingrese los nombre" disabled required="">
+                        <input asp-for="Nombre" type="text" name="footer-email" class="form-control" placeholder="Ingrese los nombre" disabled required="">
                         <span class="form-bar"></span>
                         <label class="float-label">Nombre</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <input type="text" name="footer-email" class="form-control" placeholder="Ingrese los apellido" disabled required="">
+                        <input asp-for="Apellido" type="text" name="footer-email" class="form-control" placeholder="Ingrese los apellido" disabled required="">
                         <span class="form-bar"></span>
                         <label class="float-label">Apellido</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <input type="date" name="footer-email" class="form-control" disabled>
+                        <input asp-for="FechaNacimiento" type="date" name="footer-email" class="form-control" disabled>
                         <span class="form-bar"></span>
                         <label class="float-label">Fecha Nacimiento</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <input type="text" name="footer-email" class="form-control" placeholder="Ingrese el tipo de sangre" disabled required="">
+                        <input asp-for="TipoSangre" type="text" name="footer-email" class="form-control" placeholder="Ingrese el tipo de sangre" disabled required="">
                         <span class="form-bar"></span>
                         <label class="float-label">Tipo Sangre</label>
                     </div>
-                    <button class="btn waves-effect waves-light btn-success"><i class="icofont icofont-check-circled"></i>Registrar Paciente</button>
+                    <button name="footer-email" disabled class="btn waves-effect waves-light btn-success"><i class="icofont icofont-check-circled"></i>Registrar Paciente</button>
                 </form>
             </div>
         </div>
@@ -46,11 +48,10 @@
     <script>
         $(document).ready(
             function () {
-                var cedulatxt = document.getElementById('cedulatxt');
+                var cedulatxt = document.getElementById('Cedula');
                 $(cedulatxt).on('input', function () {
                     cedulaTBTextControl(cedulatxt);
                     if ($(cedulatxt).val().length > 12) {
-
                         console.log('paso');
                         var noCedula = $(cedulatxt).val();
                         $.post("/Asistente/VerificarCedulaPaciente", { 'cedula': $(cedulatxt).val() }, function (result) {
@@ -62,13 +63,16 @@
                 });
                 function UnlockFieldsByCedula() {
                     var allFields = $("input[name=footer-email]");
+                    var button = $("button[name=footer-email]");
+
+                    $(button).prop('disabled', false);
                     $(allFields).each(function () { 
                         $(this).prop('disabled', false);
                     })
                     $(cedulatxt).prop('disabled', true);
                     
                 }
-                function UnlockFieldsByCedula() {
+                function lockFieldsByCedula() {
                     var allFields = $("input[name=footer-email]");
                     $(allFields).each(function () {
                         $(this).prop('disabled', true);
@@ -82,7 +86,7 @@
 
                     if (len > 11 && text[11] != '-') {
                         var parteIzquierda = text.substring(0, 11);
-                        var parteDerecha = text.substring(11, len);
+                        var parteDerecha = text.substring(11, 12);
                         result = parteIzquierda + "-" + parteDerecha;
                     }
                     else {

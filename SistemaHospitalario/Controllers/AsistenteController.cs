@@ -22,6 +22,14 @@ namespace SistemaHospitalario.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult Paciente(Paciente paciente)
+        {
+            _Context.Pacientes.Add(paciente);
+            _Context.SaveChanges();
+            return View();
+        }
+
         public IActionResult Pacientes()
         {
             return View();
@@ -52,7 +60,8 @@ namespace SistemaHospitalario.Controllers
         [HttpPost]
         public IActionResult VerificarCedulaPaciente(string Cedula )
         {
-            if (true)
+            var paciente=_Context.Pacientes.FirstOrDefault(r => r.Cedula == Cedula.Replace("-",string.Empty));
+            if (paciente==null)
             {
                 return Ok(true);
             }
