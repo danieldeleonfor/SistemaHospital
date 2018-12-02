@@ -59,6 +59,21 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (DbContext.Usuarios.Count() < 1)
+            {
+                Usuario administrador = new Usuario()
+                {
+                    NombreUsuario = "danielito",
+                    Contrasenia = "admin",
+                    EsAdministrador = true,
+                    Nombres = "Daniel",
+                    Apellidos = "De Leon",
+                    FechaNacimiento = DateTime.Now,
+                    Rol = "Administrador"
+                };
+                DbContext.Usuarios.Add(administrador);
+                DbContext.SaveChanges();
+            }
             return View();
         }
 
@@ -83,6 +98,7 @@ namespace SistemaHospitalario.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult LogOut()
         {
             HttpContext.Session.Clear();
