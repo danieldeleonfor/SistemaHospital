@@ -29,7 +29,7 @@ namespace SistemaHospitalario.Controllers
             {
                 DbContext.Usuarios.Add(usuario);
                 DbContext.SaveChanges();
-                return View();
+                return RedirectToAction("ListadoUsuario");
             }
             return View(usuario);
         }
