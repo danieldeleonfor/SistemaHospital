@@ -33,7 +33,9 @@
                             <td>@(citas.Paciente.Nombre+""+ citas.Paciente.Apellido)</td>
                             <td>@citas.HoraCita</td>
                             <td>@citas.Duracion</td>
-                            <td>Modificar Eliminar</td>
+                            <td>
+                                <a asp-action="EliminarCita" asp-route-id="@citas.CitasId" class="btn btn-danger">Eliminar</a>
+                            </td>
                         </tr>
                     }
                 </tbody>
