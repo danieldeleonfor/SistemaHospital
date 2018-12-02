@@ -76,10 +76,11 @@ namespace SistemaHospitalario.Controllers
                         return RedirectToAction("Index");
                     }
                 }
+                HttpContext.Session.SetString(GeneralConfig.userSessionKey, model.Username);
             }
-            HttpContext.Session.SetString(GeneralConfig.userSessionKey, model.Username);
             
-            return View();
+            
+            return View(model);
         }
 
         public IActionResult LogOut()

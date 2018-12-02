@@ -22,6 +22,18 @@ namespace SistemaHospitalario.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult CrearUsuario(Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                DbContext.Usuarios.Add(usuario);
+                DbContext.SaveChanges();
+                return View();
+            }
+            return View(usuario);
+        }
+
         [HttpGet]
         public IActionResult ListadoUsuario()
         {

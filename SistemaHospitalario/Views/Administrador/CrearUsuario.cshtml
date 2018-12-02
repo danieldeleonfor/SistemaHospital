@@ -1,43 +1,58 @@
-﻿@model SistemaHospitalario.Models.Paciente
+﻿@model SistemaHospitalario.Models.Usuario
 
 <div class="row">
     <div class="col-sm-12">
-        <a class="btn waves-effect waves-light btn-inverse" asp-action="Pacientes"><i class="icofont icofont-exchange"></i>Pacientes Registrados</a>
+        <a class="btn waves-effect waves-light btn-inverse" asp-action="ListadoUsuario"><i class="icofont icofont-exchange"></i>Usuarios Registrados</a>
         <br />
         <br />
         <div class="card">
             <div class="card-header">
-                <h5>Registro de Pacientes</h5>
+                <h5>Registro de Usuarios</h5>
                 <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
             </div>
             <div class="card-block">
-                <form method="post" asp-controller="Asistente" asp-action="Paciente" class="form-material">
+                <form method="post" asp-controller="Administrador" asp-action="CrearUsuario" class="form-material">
                     <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.Cedula" type="text" class="form-control" placeholder="Ingrese la Cedula" required="">
+                        <input asp-for="@Model.NombreUsuario" type="text" class="form-control" placeholder="Ingrese el Nombre de Usuario" required="">
                         <span class="form-bar"></span>
-                        <label class="float-label">Cedula</label>
+                        <label class="float-label">Nombre Usuario</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.Nombre" type="text" class="form-control text-control" placeholder="Ingrese los nombre" disabled required="">
+                        <input asp-for="@Model.Contrasenia" type="password" class="form-control text-control" placeholder="Ingrese la contraseña" required="">
                         <span class="form-bar"></span>
-                        <label class="float-label">Nombre</label>
+                        <label class="float-label">Contraseña</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.Apellido" type="text" class="form-control text-control" placeholder="Ingrese los apellido" disabled required="">
+                        <input asp-for="@Model.Nombres" type="text" class="form-control text-control" placeholder="Ingrese los Nombres" required="">
                         <span class="form-bar"></span>
-                        <label class="float-label">Apellido</label>
+                        <label class="float-label">Nombres</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.FechaNacimiento" type="date" class="form-control text-control" disabled>
+                        <input asp-for="@Model.Apellidos" type="text" class="form-control text-control" placeholder="Ingrese los apellido" required="">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Apellidos</label>
+                    </div>
+                    <div class="form-group form-default form-static-label">
+                        <input asp-for="@Model.FechaNacimiento" type="date" class="form-control text-control">
                         <span class="form-bar"></span>
                         <label class="float-label">Fecha Nacimiento</label>
                     </div>
+
                     <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.TipoSangre" type="text" class="form-control text-control" placeholder="Ingrese el tipo de sangre" disabled required="">
+                        <select class="form-control" asp-for="@Model.Rol">
+                                <option value='Doctor'>Doctor</option>
+                                <option value='Asistente'>Asistente</option>
+                        </select>
                         <span class="form-bar"></span>
-                        <label class="float-label">Tipo Sangre</label>
+                        <label class="float-label">Rol del Usuario</label>
                     </div>
-                    <button disabled class="btn waves-effect waves-light btn-success text-control"><i class="icofont icofont-check-circled"></i>Registrar Paciente</button>
+                    <label class="ch-container">
+                        Es Administrador
+                        <input asp-for="@Model.EsAdministrador" type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <button class="btn waves-effect waves-light btn-success text-control"><i class="icofont icofont-check-circled"></i>Registrar Usuario</button>
                 </form>
             </div>
         </div>
@@ -91,7 +106,7 @@
                 function UnlockFieldsByCedula() {
                     var allFields = $(".text-control");
                     $(allFields).each(function () {
-                        $(this).prop('disabled', false);
+                        $(this).prop('', false);
                     })
                     $(cedulatxt).prop('readonly', true);
 
@@ -99,9 +114,9 @@
                 function lockFieldsByCedula() {
                     var allFields = $("input[name=footer-email]");
                     $(allFields).each(function () {
-                        $(this).prop('disabled', true);
+                        $(this).prop('', true);
                     })
-                    $(cedulatxt).prop('disabled', false);
+                    $(cedulatxt).prop('', false);
                 }
                 function cedulaTBTextControl(textbox) {
                     var text = $(textbox).val();

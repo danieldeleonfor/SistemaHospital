@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SistemaHospitalario.Models;
 using System;
 using System.Collections.Generic;
@@ -56,46 +57,75 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult AniadirCitas()
         {
-            var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
-            var doctor = _Context.Usuarios.FirstOrDefault(r => r.NombreUsuario == nombreUsuario);
             ViewBag.Pacientes = _Context.Pacientes.ToList();
-            ViewBag.Doctor = doctor;
+            ViewBag.Doctores = _Context.Usuarios.Where(x=>x.Rol=="Doctor").ToList();
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ObtenerCitasEnDia(DateTime dia)
+        {
+            if (dia < DateTime.Now)
+            {
+                return Ok(new List<Citas>());
+            }
+            var citas = _Context.Citas
+                .Include(x=>x.Doctor)
+                .Include(x=>x.Paciente)
+                .Where(x => x.HoraCita.ToString("dd/MM/yyyy") == dia.ToString("dd/MM/yyyy"));
+            return Ok(citas);
+
+        }
+
+        [HttpGet]
+        public IActionResult CitasPorDias()
+        {
+            var citas=  _Context.Citas.Where(x => x.HoraCita.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList();
+            if (citas == null)
+            {
+                citas = new List<Citas>();
+            }
+            ViewBag.Citas = citas;
             return View();
         }
 
         [HttpPost]
-        public IActionResult AniadirCitas(Citas citas)
+        public IActionResult AniadirCitas(AsignarCita asignar)
         {
-            var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
-            var doctor = _Context.Usuarios.FirstOrDefault(r => r.NombreUsuario == nombreUsuario);
-            citas.Doctor = doctor;
             ViewBag.Pacientes = _Context.Pacientes.ToList();
-            ViewBag.Doctor = doctor;
+            ViewBag.Doctores = _Context.Usuarios.Where(x => x.Rol == "Doctor").ToList();
 
-            if (citas != null && doctor != null)
+            var cita = new Citas()
             {
-                _Context.Citas.Add(citas);
+                HoraCita=asignar.HoraCita,
+                Doctor=_Context.Usuarios.FirstOrDefault(r=>r.UsuarioId==asignar.Doctor),
+                Paciente= _Context.Pacientes.FirstOrDefault(r => r.PacienteId == asignar.Paciente),
+                Duracion =asignar.Duracion
+            };
+
+            if (ModelState.IsValid)
+            {
+                _Context.Citas.Add(cita);
                 _Context.SaveChanges();
                 return View();
             }
             else
             {
-                return View(citas);
+                return View(cita);
             }
         }
 
         [HttpGet]
-        public IActionResult VerificarCedulaPaciente()
+        public IActionResult ListadoCitas()
         {
-            if (true)
-            {
-                return Ok(true);
-            }
-            else
-            {
-                return Ok(false);
-            }
+            var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
 
+            ViewBag.Citas = _Context.Citas
+                .Include(x => x.Doctor)
+                .Include(x => x.Paciente)
+                .ToList();
+
+            return View();
         }
 
         [HttpPost]

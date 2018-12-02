@@ -1,4 +1,5 @@
-﻿@model SistemaHospitalario.Models.Citas
+﻿@using SistemaHospitalario.Models
+@model SistemaHospitalario.Models.AsignarCita
 
 <div class="row">
     <div class="col-sm-12">
@@ -13,22 +14,27 @@
             <div class="card-block">
                 <form method="post" asp-controller="Asistente" asp-action="AniadirCitas" class="form-material">
                     <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.Doctor.NombreUsuario" value="@ViewBag.Doctor.Nombres" type="text" class="form-control text-control" placeholder="Ingrese los nombre" disabled required="">
+                        <select class="form-control" asp-for="@Model.Doctor">
+                            @foreach (Usuario doctor in ViewBag.Doctores)
+                            {
+                                <option value='@doctor.UsuarioId'>@doctor.NombreUsuario</option>
+                            }
+                        </select>
                         <span class="form-bar"></span>
                         <label class="float-label">Doctor</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <select class="form-control" asp-for="@Model.Paciente.PacienteId">
-                            @foreach (var paciente in ViewBag.Pacientes)
+                        <select class="form-control" asp-for="@Model.Paciente">
+                            @foreach (Paciente paciente in ViewBag.Pacientes)
                             {
-                                <option value="paciente.PacienteId">@paciente.Nombre</option>
+                                <option value="@paciente.PacienteId">@paciente.Nombre</option>
                             }
                         </select>
                         <span class="form-bar"></span>
                         <label class="float-label">Pacientes</label>
                     </div>
                     <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.HoraCita" type="datetime-local" class="form-control text-control"   required="">
+                        <input asp-for="@Model.HoraCita" type="datetime-local" class="form-control text-control" required="">
                         <span class="form-bar"></span>
                         <label class="float-label">Fecha y Hora</label>
                     </div>
@@ -46,6 +52,6 @@
 @section script
     {
     <script>
-        
+
     </script>
 }

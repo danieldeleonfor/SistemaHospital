@@ -1,0 +1,100 @@
+﻿@model List<SistemaHospitalario.Models.Citas>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Eliga un dia</h5>
+    </div>
+    <div class="card-block">
+        <input  type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" id="diacita"/>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h5>Listado de citas</h5>
+        <div class="card-header-right">
+            <ul class="list-unstyled card-option">
+                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                <li><i class="fa fa-window-maximize full-card"></i></li>
+                <li><i class="fa fa-minus minimize-card"></i></li>
+                <li><i class="fa fa-refresh reload-card"></i></li>
+                <li><i class="fa fa-trash close-card"></i></li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre Doctor</th>
+                        <th>Paciente</th>
+                        <th>Fecha y Hora</th>
+                        <th>Duracion</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id='bodycitastable'>
+                    @foreach (SistemaHospitalario.Models.Citas citas in ViewBag.Citas)
+                    {
+                        <tr>
+                            <th scope="row">@citas.Doctor.Nombres</th>
+                            <td>@(citas.Paciente.Nombre + "" + citas.Paciente.Apellido)</td>
+                            <td>@citas.HoraCita</td>
+                            <td>@citas.Duracion</td>
+                            <td>Modificar Eliminar</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section script
+{
+    <script>
+        $(document).ready(
+            function () {
+                var datetxt = $('#diacita');
+                $(datetxt).on('input', function () {
+                    
+                    var fecha = datetxt.val();
+                    //console.log(fecha);
+                    //var anio=fecha.substring(0, 4);
+                    //var mes=fecha.substring(5, 7);
+                    //var dia=fecha.substring(8, 10);
+                    //var fechaAIngresar = dia+ "/" + mes + "/" + anio;
+                    //console.log(fechaAIngresar);
+                    $.get("/Asistente/ObtenerCitasEnDia", { 'dia': fecha }, function (result) {
+                        AgregarCitas(result);
+                    });
+
+                });
+                function AgregarCitas(citas) {
+                    var citasTable = $('#bodycitastable');
+
+                    citasTable.children().each(function () {
+                        console.log(this);
+                        citasTable[0].removeChild(this);
+                    });
+
+                    citas.forEach(function (element) {
+                        var row = $('<tr>');
+                        var nombredoctor = $('<td>' + element.doctor.nombres + '</td>');
+                        var nombrepaciente = $('<td>' + element.paciente.nombre + '</td>');
+                        var horacita = $('<td>' + element.horaCita + '</td>');
+                        var duracion = $('<td>' + element.duracion + '</td>');
+                        var acciones = $('<td>Modificar Eliminar</td>');
+
+                        row.append(nombredoctor);
+                        row.append(nombrepaciente);
+                        row.append(horacita);
+                        row.append(duracion);
+                        row.append(acciones);
+                        citasTable.append(row);
+                    });
+                }
+            }
+        );
+    </script>
+}

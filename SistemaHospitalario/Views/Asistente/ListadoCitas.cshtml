@@ -1,8 +1,8 @@
-﻿@model List<SistemaHospitalario.Models.Usuario>
+﻿@model List<SistemaHospitalario.Models.Citas>
 
 <div class="card">
     <div class="card-header">
-        <h5>Listado de Usuarios</h5>
+        <h5>Listado de citas</h5>
         <div class="card-header-right">
             <ul class="list-unstyled card-option">
                 <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -18,21 +18,21 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>NombreUsuario</th>
-                        <th>Nombres</th>
-                        <th>FechaNacimiento</th>
-                        <th>rol</th>
+                        <th>Nombre Doctor</th>
+                        <th>Paciente</th>
+                        <th>Fecha y Hora</th>
+                        <th>Duracion</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (SistemaHospitalario.Models.Usuario usuarios in ViewBag.Usuarios)
+                    @foreach (SistemaHospitalario.Models.Citas citas in ViewBag.Citas)
                     {
                         <tr>
-                            <th scope="row">@usuarios.NombreUsuario</th>
-                            <td>@usuarios.Nombres</td>
-                            <td>@usuarios.FechaNacimiento</td>
-                            <td>@usuarios.Rol</td>
+                            <th scope="row">@citas.Doctor.Nombres</th>
+                            <td>@(citas.Paciente.Nombre+""+ citas.Paciente.Apellido)</td>
+                            <td>@citas.HoraCita</td>
+                            <td>@citas.Duracion</td>
                             <td>Modificar Eliminar</td>
                         </tr>
                     }
