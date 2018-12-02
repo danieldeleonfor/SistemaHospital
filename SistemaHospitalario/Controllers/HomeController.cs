@@ -28,7 +28,7 @@ namespace SistemaHospitalario.Controllers
             
             ViewBag.Usuarios = DbContext.Usuarios.Count();
             ViewBag.Pacientes = DbContext.Pacientes.Count();
-            //ViewBag.Usuarios = DbContext.Citas.Count();
+            ViewBag.Citas = DbContext.Citas.Count();
             return View();
         }
 
@@ -63,6 +63,7 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewBag.Error = "";
             if (DbContext.Usuarios.Count() < 1)
             {
                 Usuario administrador = new Usuario()
@@ -84,6 +85,7 @@ namespace SistemaHospitalario.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
+            ViewBag.Error = "";
             if (ModelState.IsValid)
             {
                 var usuarioLogeado = DbContext.Usuarios.FirstOrDefault(r => r.NombreUsuario == model.Username);
@@ -97,8 +99,8 @@ namespace SistemaHospitalario.Controllers
                 }
                 HttpContext.Session.SetString(GeneralConfig.userSessionKey, model.Username);
             }
-            
-            
+
+            ViewBag.Error = "El usuario no existe";
             return View(model);
         }
 
