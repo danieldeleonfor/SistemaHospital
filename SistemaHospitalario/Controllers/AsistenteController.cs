@@ -31,7 +31,7 @@ namespace SistemaHospitalario.Controllers
             {
                 _Context.Pacientes.Add(paciente);
                 _Context.SaveChanges();
-                return View();
+                return RedirectToAction("Pacientes");
             }
             else
             {
