@@ -68,10 +68,11 @@ namespace SistemaHospitalario.Controllers
         {
             var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             var doctor = _Context.Usuarios.FirstOrDefault(r => r.NombreUsuario == nombreUsuario);
+            citas.Doctor = doctor;
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             ViewBag.Doctor = doctor;
 
-            if (ModelState.IsValid)
+            if (citas != null && doctor != null)
             {
                 _Context.Citas.Add(citas);
                 _Context.SaveChanges();

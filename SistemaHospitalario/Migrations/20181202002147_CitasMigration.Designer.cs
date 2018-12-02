@@ -11,9 +11,10 @@ using System;
 namespace SistemaHospitalario.Migrations
 {
     [DbContext(typeof(DbContext2))]
-    partial class DbContext2ModelSnapshot : ModelSnapshot
+    [Migration("20181202002147_CitasMigration")]
+    partial class CitasMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
