@@ -22,6 +22,11 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult Paciente()
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             return View();
         }
         [HttpPost]
@@ -42,6 +47,11 @@ namespace SistemaHospitalario.Controllers
 
         public IActionResult Pacientes()
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             return View();
         }
@@ -49,6 +59,11 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ReporteCumpleanioPorMes(int id)
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             var pacientes=_Context.Pacientes.Where(r => r.FechaNacimiento.Month == id).ToList();
             ViewBag.Reporte = pacientes;
             return View();
@@ -57,6 +72,11 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult AniadirCitas()
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             ViewBag.Doctores = _Context.Usuarios.Where(x=>x.Rol=="Doctor").ToList();
             return View();
@@ -65,6 +85,11 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ObtenerCitasEnDia(DateTime dia)
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             if (dia < DateTime.Now)
             {
                 return Ok(new List<Citas>());
@@ -80,6 +105,11 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult CitasPorDias()
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             var citas=  _Context.Citas.Where(x => x.HoraCita.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList();
             if (citas == null)
             {
@@ -107,7 +137,7 @@ namespace SistemaHospitalario.Controllers
             {
                 _Context.Citas.Add(cita);
                 _Context.SaveChanges();
-                return View();
+                return RedirectToAction("ListadoCitas");
             }
             else
             {
@@ -118,6 +148,11 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ListadoCitas()
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
 
             ViewBag.Citas = _Context.Citas
@@ -126,6 +161,21 @@ namespace SistemaHospitalario.Controllers
                 .ToList();
 
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult EliminarCita(int id)
+        {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
+            var cita = _Context.Citas.FirstOrDefault(x => x.CitasId == id);
+            _Context.Remove(cita);
+            _Context.SaveChanges();
+
+            return RedirectToAction("ListadoCitas");
         }
 
         [HttpPost]

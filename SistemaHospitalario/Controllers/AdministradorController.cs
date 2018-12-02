@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SistemaHospitalario.Models;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,11 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult CrearUsuario()
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             return View();
         }
 
@@ -37,6 +43,11 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ListadoUsuario()
         {
+            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            {
+                return Redirect("/home/login");
+            }
+            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
             ViewBag.Usuarios = DbContext.Usuarios.ToList();
             return View();
         }
