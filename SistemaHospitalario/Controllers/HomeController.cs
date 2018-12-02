@@ -25,6 +25,10 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Login");
             }
             ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
+            
+            ViewBag.Usuarios = DbContext.Usuarios.Count();
+            ViewBag.Pacientes = DbContext.Pacientes.Count();
+            //ViewBag.Usuarios = DbContext.Citas.Count();
             return View();
         }
 
