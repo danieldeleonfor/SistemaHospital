@@ -1,4 +1,6 @@
-﻿<div class="card">
+﻿@model List<SistemaHospitalario.Models.Paciente>
+
+<div class="card">
     <div class="card-header">
         <h5>Registro de Pacientes</h5>
         <div class="card-header-right">
@@ -16,31 +18,22 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
+                        <th>Cedula</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Tipo Sangre</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td></td>
-                    </tr>
+                    @foreach (SistemaHospitalario.Models.Paciente paciente in ViewBag.Pacientes )
+                    {
+                        <tr>
+                            <th scope="row">@paciente.Cedula</th>
+                            <td>@paciente.Nombre</td>
+                            <td>@paciente.Apellido</td>
+                            <td>@paciente.TipoSangre</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

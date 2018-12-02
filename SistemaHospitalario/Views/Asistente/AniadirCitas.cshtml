@@ -1,0 +1,51 @@
+﻿@model SistemaHospitalario.Models.Citas
+
+<div class="row">
+    <div class="col-sm-12">
+        <a class="btn waves-effect waves-light btn-inverse" asp-action="Pacientes"><i class="icofont icofont-exchange"></i>Pacientes Registrados</a>
+        <br />
+        <br />
+        <div class="card">
+            <div class="card-header">
+                <h5>Agregar Citas</h5>
+                <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
+            </div>
+            <div class="card-block">
+                <form method="post" asp-controller="Asistente" asp-action="Paciente" class="form-material">
+                    <div class="form-group form-default form-static-label">
+                        <input asp-for="@Model.Doctor.NombreUsuario" value="@ViewBag.Doctor.Nombres" type="text" class="form-control text-control" placeholder="Ingrese los nombre" disabled required="">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Doctor</label>
+                    </div>
+                    <div class="form-group form-default form-static-label">
+                        <select class="form-control" asp-for="@Model.Paciente.PacienteId">
+                            @foreach (var paciente in ViewBag.Pacientes)
+                            {
+                                <option value="paciente.PacienteId">@paciente.Nombre</option>
+                            }
+                        </select>
+                        <span class="form-bar"></span>
+                        <label class="float-label">Pacientes</label>
+                    </div>
+                    <div class="form-group form-default form-static-label">
+                        <input asp-for="@Model.HoraCita" type="datetime-local" class="form-control text-control"   required="">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Fecha y Hora</label>
+                    </div>
+                    <div class="form-group form-default form-static-label">
+                        <input asp-for="@Model.Duracion" type="number" class="form-control text-control" placeholder="Duracion de la cita" required="">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Duracion Cita:</label>
+                    </div>
+                    <button class="btn waves-effect waves-light btn-success text-control"><i class="icofont icofont-check-circled"></i>Registrar Citas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section script
+    {
+    <script>
+        
+    </script>
+}

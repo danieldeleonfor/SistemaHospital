@@ -44,7 +44,7 @@
     </div>
 </div>
 @section script
-{
+    {
     <script>
         $(document).ready(
             function () {
@@ -90,11 +90,11 @@
 
                 function UnlockFieldsByCedula() {
                     var allFields = $(".text-control");
-                    $(allFields).each(function () { 
+                    $(allFields).each(function () {
                         $(this).prop('disabled', false);
                     })
                     $(cedulatxt).prop('readonly', true);
-                    
+
                 }
                 function lockFieldsByCedula() {
                     var allFields = $("input[name=footer-email]");
@@ -129,8 +129,8 @@
                     }
                     $(textbox).val(result);
 
-                    
-                    
+
+
                 }
             }
         )

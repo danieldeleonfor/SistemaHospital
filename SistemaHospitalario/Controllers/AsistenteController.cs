@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SistemaHospitalario.Models;
 using System;
 using System.Collections.Generic;
@@ -25,13 +26,22 @@ namespace SistemaHospitalario.Controllers
         [HttpPost]
         public IActionResult Paciente(Paciente paciente)
         {
-            _Context.Pacientes.Add(paciente);
-            _Context.SaveChanges();
-            return View();
+            if (ModelState.IsValid)
+            {
+                _Context.Pacientes.Add(paciente);
+                _Context.SaveChanges();
+                return View();
+            }
+            else
+            {
+                return View();
+            }
+            
         }
 
         public IActionResult Pacientes()
         {
+            ViewBag.Pacientes = _Context.Pacientes.ToList();
             return View();
         }
 
@@ -41,6 +51,36 @@ namespace SistemaHospitalario.Controllers
             var pacientes=_Context.Pacientes.Where(r => r.FechaNacimiento.Month == id).ToList();
             ViewBag.Reporte = pacientes;
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult AniadirCitas()
+        {
+            var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
+            var doctor = _Context.Usuarios.FirstOrDefault(r => r.NombreUsuario == nombreUsuario);
+            ViewBag.Pacientes = _Context.Pacientes.ToList();
+            ViewBag.Doctor = doctor;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AniadirCitas(Citas citas)
+        {
+            var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
+            var doctor = _Context.Usuarios.FirstOrDefault(r => r.NombreUsuario == nombreUsuario);
+            ViewBag.Pacientes = _Context.Pacientes.ToList();
+            ViewBag.Doctor = doctor;
+
+            if (ModelState.IsValid)
+            {
+                _Context.Citas.Add(citas);
+                _Context.SaveChanges();
+                return View();
+            }
+            else
+            {
+                return View(citas);
+            }
         }
 
         [HttpGet]
@@ -60,10 +100,10 @@ namespace SistemaHospitalario.Controllers
         [HttpPost]
         public IActionResult VerificarCedulaPaciente(string Cedula )
         {
-            var paciente=_Context.Pacientes.FirstOrDefault(r => r.Cedula == Cedula.Replace("-",string.Empty));
-            if (paciente==null)
+            var paciente=_Context.Pacientes.FirstOrDefault(r => r.Cedula.Replace("-", string.Empty) == Cedula.Replace("-",string.Empty));
+            if (paciente!=null)
             {
-                return Ok(true);
+                return Ok(paciente);
             }
             else
             {

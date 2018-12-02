@@ -28,9 +28,31 @@ namespace SistemaHospitalario.Controllers
             return View();
         }
 
+        public IActionResult CreateUser()
+        {
+            if (DbContext.Usuarios.Count() < 1)
+            {
+                Usuario administrador = new Usuario()
+                {
+                    NombreUsuario="admin",
+                    Contrasenia="admin",
+                    EsAdministrador=true,
+                    Nombres="Administrator",
+                    Apellidos="Admin",
+                    FechaNacimiento=DateTime.Now,
+                    Rol="Nada"
+                };
+                DbContext.Usuarios.Add(administrador);
+                DbContext.SaveChanges();
+            }
+            HttpContext.Session.SetString(GeneralConfig.userSessionKey, "Jorge");
+            return RedirectToAction("Index");
+        }
+
         public IActionResult FakeLogin()
         {
-            HttpContext.Session.SetString(GeneralConfig.userSessionKey, "Jorge");
+            var usuario=DbContext.Usuarios.FirstOrDefault(r => r.NombreUsuario == "admin");
+            HttpContext.Session.SetString(GeneralConfig.userSessionKey, usuario.NombreUsuario);
             return RedirectToAction("Index");
         }
 

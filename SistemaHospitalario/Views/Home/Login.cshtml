@@ -102,7 +102,7 @@
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
 
-                    <form class="md-float-material form-material">
+                    <form asp-controller="Home" asp-action="Login" method="post" class="md-float-material form-material">
                         <div class="text-center">
                             <img src="~/images/logo.png" alt="logo.png">
                         </div>
@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Sign in</button>
+                                        <input type="button" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20" value="Sign in"/>
                                     </div>
                                 </div>
                                 <hr />

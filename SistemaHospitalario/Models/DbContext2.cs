@@ -15,5 +15,6 @@ namespace SistemaHospitalario.Models
         }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Citas> Citas { get; set; }
     }
 }
