@@ -2,6 +2,14 @@
 
 <div class="card">
     <div class="card-header">
+        <h5>Eliga un dia</h5>
+    </div>
+    <div class="card-block">
+        <input readonly type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" id="diacita" />
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
         <h5>Listado de citas</h5>
         <div class="card-header-right">
             <ul class="list-unstyled card-option">
@@ -25,24 +33,24 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id='bodycitastable'>
                     @foreach (SistemaHospitalario.Models.Citas citas in ViewBag.Citas)
                     {
                         <tr>
                             <th scope="row">@citas.Doctor.Nombres</th>
-                            <td>@(citas.Paciente.Nombre+""+ citas.Paciente.Apellido)</td>
+                            <td>@(citas.Paciente.Nombre + "" + citas.Paciente.Apellido)</td>
                             <td>@citas.HoraCita</td>
                             <td>@citas.Duracion</td>
-                            <td>
-                                <a class="btn btn-warning">Modificar</a>
-                                <a class="btn btn-danger" 
-                                   asp-controller="Asistente" 
-                                   asp-action="BorrarCita"
-                                   asp-route-id="@citas.CitasId"> Eliminar</a></td>
+                            <td><a class="btn btn-primary" 
+                                   asp-controller="Doctor" 
+                                   asp-action="CrearConsulta"
+                                   asp-route-id="@citas.CitasId">Crear Consulta</a></td>
                         </tr>
                     }
                 </tbody>
             </table>
+            <br />
+            <a class="btn btn-primary" asp-controller="Doctor" asp-action="CrearConsulta"> Consulta sin cita</a>
         </div>
     </div>
 </div>

@@ -1,0 +1,138 @@
+﻿@using SistemaHospitalario.Models
+@model SistemaHospitalario.Models.ConsultaPaciente
+
+<form method="post" asp-controller="Doctor" asp-action="CrearConsulta" class="form-material">
+    <div class="row">
+        <div class="col-sm-12">
+            <a class="btn waves-effect waves-light btn-inverse" asp-action="Pacientes"><i class="icofont icofont-exchange"></i>Citas Registradas</a>
+            <br />
+            <br />
+            <div class="card">
+                <div class="card-header">
+                    <h5>Agregar Citas</h5>
+                    <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
+                </div>
+                <div class="card-block">
+                    @if (ViewBag.Cita != null)
+                    {
+                        <input type="hidden" readonly class="form-control" asp-for="@Model.Cita.CitasId" value="@ViewBag.Cita.CitasId">
+                        <input type="hidden" readonly class="form-control" asp-for="@Model.Cita.Doctor.UsuarioId" value="@ViewBag.Cita.Doctor.UsuarioId">
+                        <div class="form-group form-default form-static-label">
+                            <input readonly class="form-control" asp-for="@Model.Cita.Doctor.Nombres" value="@ViewBag.Cita.Doctor.Nombres">
+                            <span class="form-bar"></span>
+                            <label class="float-label">Doctor</label>
+                        </div>
+                        <input type="hidden" readonly class="form-control" asp-for="@Model.Cita.Paciente.PacienteId" value="@ViewBag.Cita.Paciente.PacienteId">
+
+                        <div class="form-group form-default form-static-label">
+                            <input readonly class="form-control" asp-for="@Model.Cita.Paciente.Nombre" value="@ViewBag.Cita.Paciente.Nombre">
+                            <span class="form-bar"></span>
+                            <label class="float-label">Paciente</label>
+                        </div>
+                        <div class="form-group form-default form-static-label">
+                            <input readonly asp-for="@Model.Cita.HoraCita" value="@ViewBag.Cita.HoraCita" type="datetime-local" class="form-control text-control" required="">
+                            <span class="form-bar"></span>
+                            <label class="float-label">Fecha y Hora</label>
+                        </div>
+                        <div class="form-group form-default form-static-label">
+                            <input readonly asp-for="@Model.Cita.Duracion" value="@ViewBag.Cita.Duracion" type="number" class="form-control text-control" placeholder="Duracion de la cita (En horas)" required="">
+                            <span class="form-bar"></span>
+                            <label class="float-label">Duracion Cita:</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" readonly class="form-control" asp-for="@Model.Cita.Doctor.UsuarioId" value="@ViewBag.Doctor.UsuarioId">
+
+                        <div class="form-group form-default form-static-label">
+                            <input readonly class="form-control" asp-for="@Model.Cita.Doctor.Nombres" value='@ViewBag.Doctor.Nombres' />
+                            <span class="form-bar"></span>
+                            <label class="float-label">Doctor</label>
+                        </div>
+                        <div class="form-group form-default form-static-label">
+                            <select class="form-control" asp-for="@Model.Cita.Paciente">
+                                @foreach (Paciente paciente in ViewBag.Pacientes)
+                                {
+                                    <option value="@paciente.PacienteId">@paciente.Nombre</option>
+                                }
+                            </select>
+                            <span class="form-bar"></span>
+                            <label class="float-label">Pacientes</label>
+                        </div>
+                        <div class="form-group form-default form-static-label">
+                            <input id="fecha" asp-for="@Model.Cita.HoraCita" type="datetime-local" class="form-control text-control" required="">
+                            <span class="form-bar"></span>
+                            <label class="float-label">Fecha y Hora</label>
+                        </div>
+                        <div class="form-group form-default form-static-label">
+                            <input asp-for="@Model.Cita.Duracion" type="number" class="form-control text-control" placeholder="Duracion de la cita (En horas)" required="">
+                            <span class="form-bar"></span>
+                            <label class="float-label">Duracion Cita:</label>
+                        </div>
+                        <button class="btn waves-effect waves-light btn-success text-control"><i class="icofont icofont-check-circled"></i>Registrar Citas</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br />
+            <br />
+            <div class="card">
+                <div class="card-header">
+                    <h5>Detalle Consulta</h5>
+                    <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
+                </div>
+                <div class="card-block">
+
+                    <div class="form-group form-default form-static-label">
+                        <input asp-for="@Model.FechaProximaCita" type="datetime-local" class="form-control text-control" required="">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Proxima Cita (Opcional)</label>
+                    </div>
+                    <div class="form-group form-default form-static-label">
+                        <input asp-for="@Model.PagoServicio" type="text" class="form-control text-control" placeholder="Monto Consulta" required="">
+                        <span class="form-bar"></span>
+                        <label class="float-label">Monto Consulta:</label>
+                    </div>
+                    <button class="btn waves-effect waves-light btn-success text-control"><i class="icofont icofont-check-circled"></i>Registrar Citas</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section script
+    {
+
+    <script>
+        $(document).ready(
+            function () {
+                var valor = ' @((ViewBag.Cita != null) ? @ViewBag.Cita.HoraCita : "")';
+                
+                function cambiarFecha(fecha) {
+                    //debugger;
+                    var fechatxt = $('#Cita_HoraCita');
+
+                    "01/02/2018 02:23:00 p.m"
+
+                    var dia = fecha.substring(1,3);
+                    var mes = fecha.substring(4,6);
+                    var anio = fecha.substring(7,11);
+
+                    var hora = fecha.substring(12,14);
+                    var minuto = fecha.substring(15,17);
+
+                    var fechaNamiciento = anio + "-" + mes + "-" + dia + "T" + hora+':' + minuto;
+                    console.log(fechatxt[0]);
+                    console.log(fechaNamiciento);
+                    fechatxt.val(fechaNamiciento);
+                }
+                @((ViewBag.Cita != null) ? "cambiarFecha(valor)":"")
+                });
+
+    </script>
+}

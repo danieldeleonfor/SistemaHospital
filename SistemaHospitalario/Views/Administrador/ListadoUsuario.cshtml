@@ -33,7 +33,12 @@
                             <td>@usuarios.Nombres</td>
                             <td>@usuarios.FechaNacimiento</td>
                             <td>@usuarios.Rol</td>
-                            <td>Modificar Eliminar</td>
+                            <td>
+                                <a asp-controller="Administrador"
+                                   asp-action="CrearUsuario"
+                                   asp-route-id="">Modificar</a>
+                                <a>Eliminar</a>
+                            </td>
                         </tr>
                     }
                 </tbody>

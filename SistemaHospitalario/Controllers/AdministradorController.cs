@@ -10,25 +10,35 @@ namespace SistemaHospitalario.Controllers
 {
     public class AdministradorController : Controller
     {
-        public DbContext2 DbContext { get; }
+        public DbContext2 _Context { get; }
         public AdministradorController(DbContext2 dbContext)
         {
-            this.DbContext = dbContext;
+            this._Context = dbContext;
         }
 
         [HttpGet]
         public IActionResult CrearUsuario()
         {
+            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
             return View();
         }
 
         [HttpPost]
         public IActionResult CrearUsuario(Usuario usuario)
         {
+            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
             if (ModelState.IsValid)
             {
-                DbContext.Usuarios.Add(usuario);
-                DbContext.SaveChanges();
+                _Context.Usuarios.Add(usuario);
+                _Context.SaveChanges();
                 return RedirectToAction("ListadoUsuario");
             }
             return View(usuario);
@@ -37,7 +47,12 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ListadoUsuario()
         {
-            ViewBag.Usuarios = DbContext.Usuarios.ToList();
+            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuarios = _Context.Usuarios.ToList();
             return View();
         }
     }
