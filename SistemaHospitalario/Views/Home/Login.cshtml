@@ -108,17 +108,25 @@
                                         <h3 class="text-center">Inicia sesión</h3>
                                     </div>
                                 </div>
+                                @if (ViewBag.Error.Length > 0)
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        @ViewBag.Error
+                                    </div>
+
+                                }
+                                
                                 <div class="form-group form-primary">
                                     <input asp-for="Username" type="text" class="form-control" required="">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Usuarios</label>
                                 </div>
                                 <div class="form-group form-primary">
-                                    <input asp-for="Password" type="password"  class="form-control" required="">
+                                    <input asp-for="Password" type="password" class="form-control" required="">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Contraseña</label>
                                 </div>
-                                
+
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
                                         <input id='submitButton' type="button" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20" value="Inicia sesión" />
@@ -127,7 +135,7 @@
                                 <hr />
                                 <div class="row">
                                     <div class="col-md-10">
-                                        
+
                                     </div>
                                     <div class="col-md-2">
                                         <img src="~/images/auth/Logo-small-bottom.png" alt="small-logo.png">
