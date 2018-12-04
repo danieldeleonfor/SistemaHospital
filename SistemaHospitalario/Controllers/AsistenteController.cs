@@ -51,6 +51,17 @@ namespace SistemaHospitalario.Controllers
 
         }
 
+        public IActionResult ObtenerCumpleanios(int mes)
+        {
+            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var pacientes = _Context.Pacientes.Where(r => r.FechaNacimiento.Month == mes).ToList();
+            return Ok(pacientes);
+        }
+        
+
         public IActionResult Pacientes()
         {
             if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)

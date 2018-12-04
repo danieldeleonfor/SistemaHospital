@@ -1,0 +1,105 @@
+﻿@model List<SistemaHospitalario.Models.Citas>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Eliga un mes</h5>
+    </div>
+    <div class="card-block">
+        <select id="mes" class="">
+            <option value="0">Enero</option>
+            <option value="1">Febrero</option>
+            <option value="2">Marzo</option>
+            <option value="3">Abril</option>
+            <option value="4">Mayo</option>
+            <option value="5">Junio</option>
+            <option value="6">Julio</option>
+            <option value="7">Agosto</option>
+            <option value="8">Septiembre</option>
+            <option value="9">Octubre</option>
+            <option value="10">Noviembre</option>
+            <option value="11">Diciembre</option>
+        </select>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h5>Listado de citas</h5>
+        <div class="card-header-right">
+            <ul class="list-unstyled card-option">
+                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                <li><i class="fa fa-window-maximize full-card"></i></li>
+                <li><i class="fa fa-minus minimize-card"></i></li>
+                <li><i class="fa fa-refresh reload-card"></i></li>
+                <li><i class="fa fa-trash close-card"></i></li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Cedula</th>
+                        <th>Paciente</th>
+                        <th>Dia Nacimiento</th>
+                    </tr>
+                </thead>
+                <tbody id='bodycitastable'>
+                    @foreach (SistemaHospitalario.Models.Paciente paciente in ViewBag.Citas)
+                    {
+                        <tr>
+                            <th scope="row">@paciente.Cedula</th>
+                            <td>@(paciente.Nombre + "" + paciente.Apellido)</td>
+                            <td>@paciente.FechaNacimiento</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section script
+    {
+    <script>
+        $(document).ready(
+            function () {
+                var datetxt = $('#mes');
+                $(datetxt).on('input', function () {
+
+                    var fecha = datetxt.val();
+                    //console.log(fecha);
+                    //var anio=fecha.substring(0, 4);
+                    //var mes=fecha.substring(5, 7);
+                    //var dia=fecha.substring(8, 10);
+                    //var fechaAIngresar = dia+ "/" + mes + "/" + anio;
+                    //console.log(fechaAIngresar);
+                    $.get("/Asistente/ObtenerCumpleanios", { 'mes': fecha }, function (result) {
+                        AgregarCitas(result);
+                    });
+
+                });
+                function AgregarCitas(citas) {
+                    var citasTable = $('#bodycitastable');
+
+                    citasTable.children().each(function () {
+                        console.log(this);
+                        citasTable[0].removeChild(this);
+                    });
+
+                    citas.forEach(function (element) {
+                        var row = $('<tr>');
+                        var cedulaPaciente = $('<td>' + element.cedula + '</td>');
+                        var nombrepaciente = $('<td>' + element.nombre + ' ' + element.apellido + '</td>');
+                        var FechaNacimiento = $('<td>' + element.fechaNacimiento + '</td>');
+
+                        row.append(cedulaPaciente);
+                        row.append(nombrepaciente);
+                        row.append(FechaNacimiento);
+                        citasTable.append(row);
+                    });
+                }
+            }
+        );
+    </script>
+}

@@ -98,7 +98,18 @@
                         <label class="float-label">Monto Consulta:</label>
                     </div>
                     <button class="btn waves-effect waves-light btn-success text-control"><i class="icofont icofont-check-circled"></i>Registrar Citas</button>
-
+                    <button class="btn btn-success" id="btnReceta">Agregar Receta</button>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Receta</th>
+                                <th>Cantidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyrecetatable">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -112,7 +123,10 @@
         $(document).ready(
             function () {
                 var valor = ' @((ViewBag.Cita != null) ? @ViewBag.Cita.HoraCita : "")';
-                
+                $('#btnReceta').click(function () {
+                    agregarReceta("hola", "2");
+                })
+
                 function cambiarFecha(fecha) {
                     //debugger;
                     var fechatxt = $('#Cita_HoraCita');
@@ -131,7 +145,21 @@
                     console.log(fechaNamiciento);
                     fechatxt.val(fechaNamiciento);
                 }
-                @((ViewBag.Cita != null) ? "cambiarFecha(valor)":"")
+
+                function agregarReceta(nombreReceta, cantidadReceta)
+                {
+                    var recetasTable = $('#bodyrecetatable');
+
+                    var row = $('<tr>');
+                    var receta = $('<td>' + nombreReceta + '</td>');
+                    var cantidad = $('<td>' + cantidadReceta + '</td>');
+                    var acciones = $('<td>Modificar Eliminar</td>');
+
+                    row.append(receta);
+                    row.append(cantidad);
+                    row.append(acciones);
+                    recetasTable.append(row);
+                }
                 });
 
     </script>

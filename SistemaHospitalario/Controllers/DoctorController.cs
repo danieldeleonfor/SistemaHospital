@@ -76,6 +76,22 @@ namespace SistemaHospitalario.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public IActionResult ObtenerCitasEnDia(DateTime dia)
+        {
+            var doctor = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if ( doctor == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Usuario = doctor.NombreUsuario;
+            var PagoDia = _Context.Consultas
+                .Where(x => x.Cita.HoraCita.ToString("dd/MM/yyyy") == dia.ToString("dd/MM/yyyy"))
+                .Sum(x=>x.PagoServicio);
+            return Ok(PagoDia);
+        }
+
         [HttpPost]
         public IActionResult CrearConsulta(ConsultaPaciente nuevo)
         {
