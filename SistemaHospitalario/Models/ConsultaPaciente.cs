@@ -11,9 +11,9 @@ namespace SistemaHospitalario.Models
     {
         public int ConsultaPacienteId { get; set; }
         [Required]
-        public Citas Cita { get; set; }
+        public int CitaId { get; set; }
+        public DateTime DiaActual { get; set; }
         public List<Receta> Recetas { get; set; }
-        [Required]
         public double PagoServicio { get; set; }
         public DateTime FechaProximaCita { get; set; }
     }

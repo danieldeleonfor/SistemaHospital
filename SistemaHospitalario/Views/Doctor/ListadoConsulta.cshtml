@@ -1,4 +1,4 @@
-﻿@model List<SistemaHospitalario.Models.Citas>
+﻿@model List<SistemaHospitalario.Models.ConsultaPacienteModel>
 
 <div class="card">
     <div class="card-header">
@@ -18,26 +18,21 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Nombre Doctor</th>
+                        <th>Dia Consulta</th>
                         <th>Paciente</th>
-                        <th>Fecha y Hora</th>
-                        <th>Duracion</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (SistemaHospitalario.Models.Citas citas in ViewBag.Citas)
+                    @foreach (SistemaHospitalario.Models.ConsultaPacienteModel consulta in Model)
                     {
                         <tr>
-                            <th scope="row">@citas.Doctor.Nombres</th>
-                            <td>@(citas.Paciente.Nombre+""+ citas.Paciente.Apellido)</td>
-                            <td>@citas.HoraCita</td>
-                            <td>@citas.Duracion</td>
+                            <th scope="row">@consulta.Consulta.DiaActual</th>
+                            <td>@(consulta.Cita.Paciente.Nombre + " " + consulta.Cita.Paciente.Apellido)</td>
                             <td>
-                                <a class="btn btn-danger" 
-                                   asp-controller="Asistente" 
-                                   asp-action="BorrarCita"
-                                   asp-route-id="@citas.CitasId"> Eliminar</a></td>
+                                <input type="text" asp-for="@consulta.Consulta.PagoServicio" id="pago-@consulta.Consulta.ConsultaPacienteId" />
+                                <a class="btn btn-primary" onclick="Pago(@consulta.Consulta.ConsultaPacienteId)">Pagar</a>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -45,3 +40,22 @@
         </div>
     </div>
 </div>
+@section script
+    {
+
+    <script>
+        $(document).ready(
+            function () {
+
+            });
+
+        function Pago(idPago) {
+
+            var amount  = $("#pago-" + idPago).val();
+
+            $.post("/Doctor/AgregarPago", { 'IdConsulta': idPago, 'Amount': amount }, function (result) {
+
+            });
+        }
+    </script>
+}

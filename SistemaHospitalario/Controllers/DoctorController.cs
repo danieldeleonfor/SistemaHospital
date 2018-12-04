@@ -94,7 +94,7 @@ namespace SistemaHospitalario.Controllers
             ViewBag.ItsAdmin = doctor.EsAdministrador;
             ViewBag.Usuario = doctor.NombreUsuario;
             var PagoDia = _Context.Consultas
-                .Where(x => x.Cita.HoraCita.ToString("dd/MM/yyyy") == dia.ToString("dd/MM/yyyy"))
+                .Where(x => x.DiaActual.ToString("dd/MM/yyyy") == dia.ToString("dd/MM/yyyy"))
                 .Sum(x => x.PagoServicio);
             return Ok(PagoDia);
         }
@@ -112,17 +112,42 @@ namespace SistemaHospitalario.Controllers
             ViewBag.Usuario = usuario.NombreUsuario;
             if (ModelState.IsValid)
             {
-                if (nuevo.Cita.CitasId == 0)
-                {
-                    var cita = _Context.Citas.Add(nuevo.Cita).Entity;
-                    _Context.SaveChanges();
-                    nuevo.Cita = cita;
-                }
                 _Context.Consultas.Add(nuevo);
                 _Context.SaveChanges();
                 return View();
             }
             return View(nuevo);
         }
+
+        [HttpGet]
+        public IActionResult ListadoConsulta()
+        {
+            var listado = new List<ConsultaPacienteModel>();
+            var listadoConsulta = _Context.Consultas
+                .ToList();
+            foreach(var consulta in listadoConsulta)
+            {
+                var cita = _Context.Citas
+                    .Include(x=>x.Paciente)
+                    .FirstOrDefault(x => x.CitasId == consulta.CitaId);
+                listado.Add(new ConsultaPacienteModel()
+                {
+                    Cita=cita,
+                    Consulta=consulta
+                });
+            }
+            return View(listado);
+        }
+
+        [HttpPost]
+        public IActionResult AgregarPago(Pago pago)
+        {
+            var modelo=_Context.Consultas.FirstOrDefault(r => r.ConsultaPacienteId == pago.IdConsulta);
+            modelo.PagoServicio = pago.Amount;
+            _Context.Consultas.Update(modelo);
+            _Context.SaveChanges();
+            return Ok();
+        }
+
     }
 }

@@ -207,8 +207,7 @@
                                     </li>
                                 </ul>
                             }
-                            @if (ViewBag.UsuarioRol != null && ViewBag.UsuarioRol == "Asistente")
-                            {
+
                                 <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Funciones Secretaria</div>
                                 <ul class="pcoded-item pcoded-left-item">
                                     <li class="pcoded-hasmenu">
@@ -218,28 +217,35 @@
                                             <span class="pcoded-mcaret"></span>
                                         </a>
                                         <ul class="pcoded-submenu">
-                                            <li class=" ">
-                                                <a asp-controller="Asistente" asp-action="Paciente" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Agregar</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                            <li class=" ">
-                                                <a asp-controller="Asistente" asp-action="ReporteCumpleanioPorMes" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">CumpleAños</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                            <li class=" ">
-                                                <a asp-controller="Asistente" asp-action="Pacientes" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Listado</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                            @if(ViewBag.UsuarioRol != null && ViewBag.UsuarioRol == "Asistente")
+                                            {
+                                                <li class=" ">
+                                                    <a asp-controller="Asistente" asp-action="Paciente" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Agregar</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            }
+                                            @if(ViewBag.UsuarioRol != null && ViewBag.UsuarioRol == "Asistente")
+                                            {
+                                                <li class=" ">
+                                                    <a asp-controller="Asistente" asp-action="ReporteCumpleanioPorMes" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">CumpleAños</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                             
+                                                </li>
+                                            }
+                                                <li class=" ">
+                                                    <a asp-controller="Asistente" asp-action="Pacientes" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Listado</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                     </li>
                                     <li class="pcoded-hasmenu">
                                         <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -248,38 +254,48 @@
                                             <span class="pcoded-mcaret"></span>
                                         </a>
                                         <ul class="pcoded-submenu">
-                                            <li class=" ">
-                                                <a asp-controller="Asistente" asp-action="ListadoCitas" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Consultar</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                            <li class=" ">
-                                                <a asp-controller="Asistente" asp-action="AniadirCitas" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Asignar</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                            <li class=" ">
-                                                <a asp-controller="Asistente" asp-action="CitasPorDias" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Pendientes</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                            <li class=" ">
-                                                <a href="breadcrumb.html" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Imprimir citas</span>
-                                                    <span class="pcoded-mcaret"></span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                            @if (ViewBag.UsuarioRol != null && ViewBag.UsuarioRol == "Asistente"
+                                                                              || ViewBag.ItsAdmin == true)
+                                            {
+                                                <li class=" ">
+                                                    <a asp-controller="Asistente" asp-action="ListadoCitas" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Consultar</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            }
+                                            @if (ViewBag.UsuarioRol != null && ViewBag.UsuarioRol == "Asistente")
+                                            {
+                                                <li class=" ">
+                                                    <a asp-controller="Asistente" asp-action="AniadirCitas" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Asignar</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            }
+                                            @if (ViewBag.UsuarioRol != null && ViewBag.UsuarioRol == "Asistente")
+                                            {
+                                                <li class=" ">
+                                                    <a asp-controller="Asistente" asp-action="CitasPorDias" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Pendientes</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            }
+                                                <li class=" ">
+                                                    <a href="breadcrumb.html" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Imprimir citas</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                     </li>
                                 </ul>
-                            }
+                            
                             @if (ViewBag.UsuarioRol != null && ViewBag.UsuarioRol == "Doctor")
                             {
                                 <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Funciones Doctor</div>
