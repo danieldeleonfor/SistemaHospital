@@ -75,13 +75,6 @@ namespace SistemaHospitalario.Migrations
                 name: "IX_Citas_PacienteId",
                 table: "Citas",
                 column: "PacienteId");
-
-            migrationBuilder.InsertData(
-                table: "Usuario",
-                columns: new[] { "UsuarioId", "NombreUsuario", "Contrasenia",
-                    "Rol", "EsAdministrador", "Nombres","Apellidos","FechaNacimiento" },
-                values: new object[] { 1, "admin", "admin ", "Nada"
-                , true, "Administrator", "Admin", DateTime.Now});
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

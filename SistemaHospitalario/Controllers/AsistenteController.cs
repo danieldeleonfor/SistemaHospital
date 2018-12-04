@@ -22,21 +22,25 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult Paciente()
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             return View();
         }
         [HttpPost]
         public IActionResult Paciente(Paciente paciente)
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
 
             if (ModelState.IsValid)
             {
@@ -53,22 +57,27 @@ namespace SistemaHospitalario.Controllers
 
         public IActionResult ObtenerCumpleanios(int mes)
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            var pacientes = _Context.Pacientes.Where(r => r.FechaNacimiento.Month == mes).ToList();
+            ViewBag.Usuario = usuario.NombreUsuario;
+            var pacientes = _Context.Pacientes.Where(x=>x.FechaNacimiento.Month == mes).ToList();
+            ViewBag.UsuarioRol = usuario.Rol;
             return Ok(pacientes);
         }
-        
+
 
         public IActionResult Pacientes()
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             return View();
         }
@@ -76,11 +85,13 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ReporteCumpleanioPorMes(int id)
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             var pacientes = _Context.Pacientes.Where(r => r.FechaNacimiento.Month == id).ToList();
             ViewBag.Reporte = pacientes;
             return View();
@@ -89,11 +100,13 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult AniadirCitas()
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             ViewBag.Doctores = _Context.Usuarios.Where(x => x.Rol == "Doctor").ToList();
             return View();
@@ -102,11 +115,13 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ObtenerCitasEnDia(DateTime dia)
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             if (dia < DateTime.Now)
             {
                 return Ok(new List<Citas>());
@@ -122,11 +137,13 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult CitasPorDias()
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             var citas = _Context.Citas.Where(x => x.HoraCita.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList();
             if (citas == null)
             {
@@ -139,11 +156,13 @@ namespace SistemaHospitalario.Controllers
 
         public IActionResult BorrarCita(int id)
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             var citaABorrar = _Context.Citas.FirstOrDefault(r => r.CitasId == id);
 
             if (citaABorrar != null)
@@ -158,11 +177,13 @@ namespace SistemaHospitalario.Controllers
         [HttpPost]
         public IActionResult AniadirCitas(AsignarCita asignar)
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             ViewBag.Doctores = _Context.Usuarios.Where(x => x.Rol == "Doctor").ToList();
 
@@ -189,11 +210,13 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ListadoCitas()
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
 
             ViewBag.Citas = _Context.Citas
@@ -207,11 +230,13 @@ namespace SistemaHospitalario.Controllers
         [HttpPost]
         public IActionResult VerificarCedulaPaciente(string Cedula)
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             var paciente = _Context.Pacientes.FirstOrDefault(r => r.Cedula.Replace("-", string.Empty) == Cedula.Replace("-", string.Empty));
             if (paciente != null)
             {

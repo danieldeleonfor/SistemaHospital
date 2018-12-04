@@ -20,12 +20,14 @@ namespace SistemaHospitalario.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString(GeneralConfig.userSessionKey) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(DbContext, this);
+            if (usuario == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Home");
             }
-            ViewBag.Usuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
-            
+            ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.Usuario = usuario.NombreUsuario;
+
             ViewBag.Usuarios = DbContext.Usuarios.Count();
             ViewBag.Pacientes = DbContext.Pacientes.Count();
             ViewBag.Citas = DbContext.Citas.Count();

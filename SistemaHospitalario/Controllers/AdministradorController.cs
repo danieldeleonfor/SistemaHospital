@@ -19,22 +19,26 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult CrearUsuario()
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             return View();
         }
 
         [HttpPost]
         public IActionResult CrearUsuario(Usuario usuario)
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuarioLog = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuarioLog == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuarioLog.NombreUsuario;
+            ViewBag.UsuarioRol = usuarioLog.Rol;
             if (ModelState.IsValid)
             {
                 _Context.Usuarios.Add(usuario);
@@ -47,11 +51,13 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ListadoUsuario()
         {
-            if (RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this) == null)
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this).NombreUsuario;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Usuarios = _Context.Usuarios.ToList();
             return View();
         }
