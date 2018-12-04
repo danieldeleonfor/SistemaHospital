@@ -29,6 +29,8 @@ namespace SistemaHospitalario.Controllers
             }
             ViewBag.Usuario = usuario.NombreUsuario;
             ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
+
             return View();
         }
         [HttpPost]
@@ -41,6 +43,8 @@ namespace SistemaHospitalario.Controllers
             }
             ViewBag.Usuario = usuario.NombreUsuario;
             ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
+
 
             if (ModelState.IsValid)
             {
@@ -65,6 +69,8 @@ namespace SistemaHospitalario.Controllers
             ViewBag.Usuario = usuario.NombreUsuario;
             var pacientes = _Context.Pacientes.Where(x=>x.FechaNacimiento.Month == mes).ToList();
             ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
+
             return Ok(pacientes);
         }
 
@@ -78,12 +84,14 @@ namespace SistemaHospitalario.Controllers
             }
             ViewBag.Usuario = usuario.NombreUsuario;
             ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
+
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             return View();
         }
 
         [HttpGet]
-        public IActionResult ReporteCumpleanioPorMes(int id)
+        public IActionResult ReporteCumpleanioPorMes()
         {
             var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
             if (usuario == null)
@@ -91,10 +99,11 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
-            var pacientes = _Context.Pacientes.Where(r => r.FechaNacimiento.Month == id).ToList();
-            ViewBag.Reporte = pacientes;
-            return View();
+            var pacientes = _Context.Pacientes.Where(r => r.FechaNacimiento.Month == DateTime.Now.Month).ToList();
+            ViewBag.Pacientes = pacientes;
+            return View("ReporteCumpleanioPorMes");
         }
 
         [HttpGet]
@@ -106,6 +115,7 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             ViewBag.Doctores = _Context.Usuarios.Where(x => x.Rol == "Doctor").ToList();
@@ -121,6 +131,7 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             if (dia < DateTime.Now)
             {
@@ -143,6 +154,7 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             var citas = _Context.Citas.Where(x => x.HoraCita.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")).ToList();
             if (citas == null)
@@ -162,6 +174,7 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             var citaABorrar = _Context.Citas.FirstOrDefault(r => r.CitasId == id);
 
@@ -183,6 +196,7 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Pacientes = _Context.Pacientes.ToList();
             ViewBag.Doctores = _Context.Usuarios.Where(x => x.Rol == "Doctor").ToList();
@@ -199,7 +213,7 @@ namespace SistemaHospitalario.Controllers
             {
                 _Context.Citas.Add(cita);
                 _Context.SaveChanges();
-                return View();
+                return RedirectToAction(nameof(ListadoCitas));
             }
             else
             {
@@ -216,6 +230,7 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             var nombreUsuario = HttpContext.Session.GetString(GeneralConfig.userSessionKey);
 
@@ -236,6 +251,7 @@ namespace SistemaHospitalario.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             var paciente = _Context.Pacientes.FirstOrDefault(r => r.Cedula.Replace("-", string.Empty) == Cedula.Replace("-", string.Empty));
             if (paciente != null)

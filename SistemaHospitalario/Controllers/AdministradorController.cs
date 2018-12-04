@@ -26,6 +26,7 @@ namespace SistemaHospitalario.Controllers
             }
             ViewBag.Usuario = usuario.NombreUsuario;
             ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             return View();
         }
 
@@ -39,6 +40,7 @@ namespace SistemaHospitalario.Controllers
             }
             ViewBag.Usuario = usuarioLog.NombreUsuario;
             ViewBag.UsuarioRol = usuarioLog.Rol;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             if (ModelState.IsValid)
             {
                 _Context.Usuarios.Add(usuario);
@@ -58,6 +60,7 @@ namespace SistemaHospitalario.Controllers
             }
             ViewBag.Usuario = usuario.NombreUsuario;
             ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.Usuarios = _Context.Usuarios.ToList();
             return View();
         }

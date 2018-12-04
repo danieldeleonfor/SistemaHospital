@@ -26,6 +26,7 @@ namespace SistemaHospitalario.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Usuario = usuario.NombreUsuario;
             var doctorLogged = usuario;
@@ -55,6 +56,7 @@ namespace SistemaHospitalario.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Usuario = usuario.NombreUsuario;
             if (id == 0)
@@ -89,6 +91,7 @@ namespace SistemaHospitalario.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.ItsAdmin = doctor.EsAdministrador;
             ViewBag.Usuario = doctor.NombreUsuario;
             var PagoDia = _Context.Consultas
                 .Where(x => x.Cita.HoraCita.ToString("dd/MM/yyyy") == dia.ToString("dd/MM/yyyy"))
@@ -104,6 +107,7 @@ namespace SistemaHospitalario.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
             ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Usuario = usuario.NombreUsuario;
             if (ModelState.IsValid)

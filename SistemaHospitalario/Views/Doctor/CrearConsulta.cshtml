@@ -1,7 +1,7 @@
 ﻿@using SistemaHospitalario.Models
 @model SistemaHospitalario.Models.ConsultaPaciente
 
-<form method="post" asp-controller="Doctor" asp-action="CrearConsulta" class="form-material">
+<form id="form" method="post" asp-controller="Doctor" asp-action="CrearConsulta" class="form-material">
     <div class="row">
         <div class="col-sm-12">
             <a class="btn waves-effect waves-light btn-inverse" asp-action="Pacientes"><i class="icofont icofont-exchange"></i>Citas Registradas</a>
@@ -88,17 +88,12 @@
                 <div class="card-block">
 
                     <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.FechaProximaCita" type="datetime-local" class="form-control text-control" required="">
+                        <input asp-for="@Model.FechaProximaCita" type="datetime-local" class="form-control text-control">
                         <span class="form-bar"></span>
                         <label class="float-label">Proxima Cita (Opcional)</label>
                     </div>
-                    <div class="form-group form-default form-static-label">
-                        <input asp-for="@Model.PagoServicio" type="text" class="form-control text-control" placeholder="Monto Consulta" required="">
-                        <span class="form-bar"></span>
-                        <label class="float-label">Monto Consulta:</label>
-                    </div>
-                    <button class="btn waves-effect waves-light btn-success text-control"><i class="icofont icofont-check-circled"></i>Registrar Citas</button>
-                    <button class="btn btn-success" id="btnReceta">Agregar Receta</button>
+
+                    <a class="btn btn-success" href="#" onclick="agregarRecetaFromInput()">Agregar Receta</a>
                     <table class="table">
                         <thead>
                             <tr>
@@ -107,9 +102,9 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyrecetatable">
-                        </tbody>
+                        <tbody id="bodyrecetatable"></tbody>
                     </table>
+                    <button class="btn waves-effect waves-light btn-success text-control"><i class="icofont icofont-check-circled"></i>Registrar Citas</button>
                 </div>
             </div>
         </div>
@@ -123,9 +118,6 @@
         $(document).ready(
             function () {
                 var valor = ' @((ViewBag.Cita != null) ? @ViewBag.Cita.HoraCita : "")';
-                $('#btnReceta').click(function () {
-                    agregarReceta("hola", "2");
-                })
 
                 function cambiarFecha(fecha) {
                     //debugger;
@@ -146,21 +138,26 @@
                     fechatxt.val(fechaNamiciento);
                 }
 
-                function agregarReceta(nombreReceta, cantidadReceta)
-                {
-                    var recetasTable = $('#bodyrecetatable');
-
-                    var row = $('<tr>');
-                    var receta = $('<td>' + nombreReceta + '</td>');
-                    var cantidad = $('<td>' + cantidadReceta + '</td>');
-                    var acciones = $('<td>Modificar Eliminar</td>');
-
-                    row.append(receta);
-                    row.append(cantidad);
-                    row.append(acciones);
-                    recetasTable.append(row);
-                }
                 });
+        function agregarRecetaFromInput() {
+            var Receta;
+            var Cantidad;
+            agregarReceta("hola", "2");
+        }
 
+        function agregarReceta(nombreReceta, cantidadReceta) {
+            var recetasTable = $('#bodyrecetatable');
+            var numero = $('input[name=Recetas]');
+            console.log(numero.length);
+            var row = $('<tr>');
+            var receta = $('<td><input name="input0" type="text" readonly value="' + nombreReceta + '"/></td>');
+            var cantidad = $('<td><input type="text" readonly value="' + cantidadReceta + '"/></td>');
+            var acciones = $('<td>Eliminar</td>');
+
+            row.append(receta);
+            row.append(cantidad);
+            row.append(acciones);
+            recetasTable.append(row);
+        }
     </script>
 }

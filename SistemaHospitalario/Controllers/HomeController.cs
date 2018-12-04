@@ -27,6 +27,7 @@ namespace SistemaHospitalario.Controllers
             }
             ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Usuario = usuario.NombreUsuario;
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
 
             ViewBag.Usuarios = DbContext.Usuarios.Count();
             ViewBag.Pacientes = DbContext.Pacientes.Count();
