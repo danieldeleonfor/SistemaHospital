@@ -19,7 +19,7 @@ namespace SistemaHospitalario
         {
             services.AddMvc();
             services.AddDbContext<DbContext2>(options=> {
-                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MINF_DB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                options.UseSqlServer("Data Source=.;Initial Catalog=Prueba;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             });
             services.AddSession(options =>
             {
