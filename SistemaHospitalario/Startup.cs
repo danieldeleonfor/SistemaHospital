@@ -19,7 +19,8 @@ namespace SistemaHospitalario
         {
             services.AddMvc();
             services.AddDbContext<DbContext2>(options=> {
-                options.UseSqlServer("Server=tcp:sistemahosp.database.windows.net,1433;Initial Catalog=SistemaHospAzure;Persist Security Info=False;User ID=sistemahost;Password=sistemaH)$pital;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                //options.UseSqlServer("Server=tcp:sistemahosp.database.windows.net,1433;Initial Catalog=SistemaHospAzure;Persist Security Info=False;User ID=sistemahost;Password=sistemaH)$pital;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                options.UseSqlServer("Data Source=.;Initial Catalog=Prueba;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             });
             services.AddSession(options =>
             {
