@@ -114,7 +114,7 @@ namespace SistemaHospitalario.Controllers
             {
                 _Context.Consultas.Add(nuevo);
                 _Context.SaveChanges();
-                return View();
+                return RedirectToAction(nameof(ListadoConsulta));
             }
             return View(nuevo);
         }
@@ -122,8 +122,16 @@ namespace SistemaHospitalario.Controllers
         [HttpGet]
         public IActionResult ListadoConsulta()
         {
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
+            ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.Usuario = usuario.NombreUsuario;
             var listado = new List<ConsultaPacienteModel>();
-            var listadoConsulta = _Context.Consultas
+            var listadoConsulta = _Context.Consultas.Include(x => x.Recetas)
                 .ToList();
             foreach(var consulta in listadoConsulta)
             {
@@ -147,6 +155,27 @@ namespace SistemaHospitalario.Controllers
             _Context.Consultas.Update(modelo);
             _Context.SaveChanges();
             return Ok();
+        }
+
+        public IActionResult VerReseta(int id)
+        {
+            var usuario = RolesYUsuarios.ObtenerUsuarioLogeado(_Context, this);
+            if (usuario == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.ItsAdmin = usuario.EsAdministrador;
+            ViewBag.UsuarioRol = usuario.Rol;
+            ViewBag.Usuario = usuario.NombreUsuario;
+            var recetas = _Context.Consultas
+                .Include(x=>x.Recetas)
+                .FirstOrDefault(r => r.ConsultaPacienteId == id).Recetas;
+            if (recetas == null)
+            {
+                return RedirectToAction(nameof(ListadoConsulta));
+            }
+            ViewBag.Reseta = recetas;
+            return View();
         }
 
     }

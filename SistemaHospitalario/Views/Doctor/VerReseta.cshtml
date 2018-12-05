@@ -1,0 +1,37 @@
+﻿@model List<SistemaHospitalario.Models.Citas>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Listado de citas</h5>
+        <div class="card-header-right">
+            <ul class="list-unstyled card-option">
+                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                <li><i class="fa fa-window-maximize full-card"></i></li>
+                <li><i class="fa fa-minus minimize-card"></i></li>
+                <li><i class="fa fa-refresh reload-card"></i></li>
+                <li><i class="fa fa-trash close-card"></i></li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Receta</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (SistemaHospitalario.Models.Receta receta in ViewBag.Reseta)
+                    {
+                        <tr>
+                            <td scope="row">@receta.Nombre</td>
+                            <td>@receta.Cantidad</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
