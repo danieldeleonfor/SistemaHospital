@@ -28,6 +28,7 @@ namespace SistemaHospitalario.Controllers
             ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.Usuario = usuario.NombreUsuario;
             ViewBag.ItsAdmin = usuario.EsAdministrador;
+            ViewBag.TodasLasGanancias = DbContext.Consultas.Sum(r => r.PagoServicio);
 
             ViewBag.Usuarios = DbContext.Usuarios.Count();
             ViewBag.Pacientes = DbContext.Pacientes.Count();
@@ -35,6 +36,23 @@ namespace SistemaHospitalario.Controllers
             return View();
         }
 
+
+        public IActionResult CreateUser()
+        {
+            var user = new Usuario()
+            {
+                Nombres="Administrator2",
+                NombreUsuario="admin2",
+                Contrasenia="admin",
+                Apellidos="",
+                FechaNacimiento=DateTime.Now,
+                EsAdministrador=true,
+                Rol="Nada",
+            };
+            DbContext.Usuarios.Add(user);
+            DbContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         [HttpGet]
         public IActionResult Login()

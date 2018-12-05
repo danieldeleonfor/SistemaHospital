@@ -137,7 +137,7 @@
                                 <ul class="show-notification profile-notification">
                                     <li class="waves-effect waves-light">
                                         <a asp-controller="Home" asp-action="LogOut">
-                                            <i class="ti-layout-sidebar-left"></i> Logout
+                                            <i class="ti-layout-sidebar-left"></i> Cerrar Sesion
                                         </a>
                                     </li>
                                 </ul>
@@ -162,7 +162,7 @@
                                 <div class="main-menu-content">
                                     <ul>
                                         <li class="more-details">
-                                            <a asp-controller="Home" asp-action="LogOut"><i class="ti-layout-sidebar-left"></i>Logout</a>
+                                            <a asp-controller="Home" asp-action="LogOut"><i class="ti-layout-sidebar-left"></i>Cerrar Sesion</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -285,13 +285,6 @@
                                                     </a>
                                                 </li>
                                             }
-                                                <li class=" ">
-                                                    <a href="breadcrumb.html" class="waves-effect waves-dark">
-                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Imprimir citas</span>
-                                                        <span class="pcoded-mcaret"></span>
-                                                    </a>
-                                                </li>
                                             </ul>
                                     </li>
                                 </ul>
@@ -365,7 +358,7 @@
                                         </a>
                                         <ul class="pcoded-submenu">
                                             <li class="">
-                                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                <a asp-controller="Asistente" asp-action="ReporteCumpleanioPorMes" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                     <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-21">Cumpleaños</span>
                                                     <span class="pcoded-mcaret"></span>
@@ -374,7 +367,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="form-elements-component.html" class="waves-effect waves-dark">
+                                        <a asp-controller="Doctor" asp-action="ListadoConsulta" class="waves-effect waves-dark">
                                             <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
                                             <span class="pcoded-mtext" data-i18n="nav.form-components.main">Pago Consulta</span>
                                             <span class="pcoded-mcaret"></span>

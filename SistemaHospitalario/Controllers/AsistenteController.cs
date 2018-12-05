@@ -44,11 +44,21 @@ namespace SistemaHospitalario.Controllers
             ViewBag.Usuario = usuario.NombreUsuario;
             ViewBag.UsuarioRol = usuario.Rol;
             ViewBag.ItsAdmin = usuario.EsAdministrador;
+            var invalids = ModelState.Values.Where(r => r.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid).Count();
 
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || invalids == 1)
             {
-                _Context.Pacientes.Add(paciente);
+                if (paciente.PacienteId != 0)
+                {
+                    var pacientes = _Context.Pacientes.FirstOrDefault(r => r.PacienteId == paciente.PacienteId);
+                    pacientes = paciente;
+                    _Context.Pacientes.Update(paciente);
+                }
+                else
+                {
+                    _Context.Pacientes.Add(paciente);
+                }
                 _Context.SaveChanges();
                 return RedirectToAction("Pacientes");
             }

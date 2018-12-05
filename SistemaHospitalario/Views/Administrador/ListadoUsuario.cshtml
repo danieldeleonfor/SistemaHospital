@@ -36,8 +36,10 @@
                             <td>
                                 <a asp-controller="Administrador"
                                    asp-action="CrearUsuario"
-                                   asp-route-id="">Modificar</a>
-                                <a>Eliminar</a>
+                                   asp-route-id="@usuarios.UsuarioId">Modificar</a>
+                                <a asp-controller="Administrador"
+                                   asp-action="DeleteUser"
+                                   asp-route-id="@usuarios.UsuarioId">Eliminar</a>
                             </td>
                         </tr>
                     }

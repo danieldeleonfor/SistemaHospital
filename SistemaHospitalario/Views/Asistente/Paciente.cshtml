@@ -12,6 +12,7 @@
             </div>
             <div class="card-block">
                 <form method="post" asp-controller="Asistente" asp-action="Paciente" class="form-material">
+                    <input asp-for="@Model.PacienteId"  type="hidden" class="form-control" placeholder="Ingrese la Cedula" required="">
                     <div class="form-group form-default form-static-label">
                         <input asp-for="@Model.Cedula" type="text" class="form-control" placeholder="Ingrese la Cedula" required="">
                         <span class="form-bar"></span>
@@ -82,7 +83,7 @@
 
                     var fechaNamiciento = date.getFullYear() + "-" + month + "-" + day;
 
-
+                    $('#PacienteId').val(Paciente.pacienteId);
                     $('#Nombre').val(Paciente.nombre);
                     $('#Apellido').val(Paciente.apellido);
                     $('#FechaNacimiento').val(fechaNamiciento);

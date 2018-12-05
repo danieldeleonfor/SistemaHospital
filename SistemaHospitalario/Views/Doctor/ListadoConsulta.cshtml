@@ -26,13 +26,17 @@
                 <tbody>
                     @foreach (SistemaHospitalario.Models.ConsultaPacienteModel consulta in Model)
                     {
-                        <tr>
-                            <th scope="row">@consulta.Consulta.DiaActual</th>
-                            <td>@(consulta.Cita.Paciente.Nombre + " " + consulta.Cita.Paciente.Apellido)</td>
+                    <tr>
+                        <th scope="row">@consulta.Consulta.DiaActual</th>
+                        <td>@(consulta.Cita.Paciente.Nombre + " " + consulta.Cita.Paciente.Apellido)</td>
+                        @if ((ViewBag.ItsAdmin != null && ViewBag.ItsAdmin == true) ||
+                          (ViewBag.UsuarioRol != null && ViewBag.UsuarioRol == "Asistente"))
+                        {
                             <td>
                                 <input type="text" asp-for="@consulta.Consulta.PagoServicio" id="pago-@consulta.Consulta.ConsultaPacienteId" />
                                 <a class="btn btn-primary" onclick="Pago(@consulta.Consulta.ConsultaPacienteId)">Pagar</a>
                             </td>
+                        }
                         </tr>
                     }
                 </tbody>
